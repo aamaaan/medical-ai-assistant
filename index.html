@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical AI Assistant Chatbot</title>
+
+  <!-- Google Fonts: Syne (display) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Leaflet.js v1.9 — lightweight interactive mapping library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+  <!-- Application Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============================================================
+     LOADING OVERLAY
+     ============================================================ -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="spinner"></div>
+  <span>Processing…</span>
+</div>
+
+<!-- ============================================================
+     HEADER — Glassmorphism · Animated Logo · Status
+     ============================================================ -->
+<header>
+  <div class="header-brand">
+    <div class="header-logo">🩺</div>
+    <div>
+      <div class="header-title">Medical <span>AI</span> Assistant</div>
+      <div class="header-subtitle">Your intelligent health information assistant</div>
+    </div>
+  </div>
+  <div class="header-controls">
+    <div class="status-dot">AI Online</div>
+    <button class="btn-icon" id="btn-dark" title="Toggle Dark Mode">🌙</button>
+  </div>
+</header>
+
+<!-- ============================================================
+     MAIN CONTENT
+     ============================================================ -->
+<main>
+
+  <!-- ── Welcome State ─────────────────────────────────────── -->
+  <section id="welcome-screen">
+    <span class="welcome-stethoscope">🩺</span>
+    <h1 class="welcome-title">Medical <span>AI</span> Assistant Chatbot</h1>
+    <p class="welcome-sub">
+      Get AI-powered symptom analysis, structured disease information, and discover nearby hospitals — all from your browser with no installation or account required.
+    </p>
+    <div class="welcome-disclaimer">
+      ⚠️ For information only — not a substitute for professional medical advice
+    </div>
+  </section>
+
+  <!-- ── Chat Messages ─────────────────────────────────────── -->
+  <div id="chat-container"></div>
+
+  <!-- ── Symptom Selection Panel ───────────────────────────── -->
+  <section id="symptom-panel">
+    <div class="panel-title">
+      🔍 Select Your Symptoms
+      <span id="selected-count" style="margin-left:0.5rem;font-size:0.78rem;color:var(--clr-primary);font-weight:600;"></span>
+    </div>
+    <div class="symptom-chips-grid" id="symptom-chips-grid">
+      <!-- Chips injected by script.js → buildSymptomChips() -->
+    </div>
+    <div class="panel-actions">
+      <button class="btn-primary" id="btn-analyze" disabled>🤖 Analyze with AI</button>
+      <button class="btn-secondary" id="btn-clear-symptoms">✕ Clear All</button>
+    </div>
+  </section>
+
+  <!-- ── Disease Search Panel ──────────────────────────────── -->
+  <section id="disease-panel">
+    <div class="panel-title">📚 Search Medical Conditions</div>
+    <div class="disease-chips-grid" id="disease-chips-grid">
+      <!-- Chips injected by script.js → buildDiseaseChips() -->
+    </div>
+  </section>
+
+  <!-- ── Hospital Finder Panel ─────────────────────────────── -->
+  <section id="hospital-panel">
+    <div class="panel-title">🏥 Nearby Hospitals &amp; Clinics</div>
+
+    <!-- Filter row -->
+    <div class="filter-row">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">Hospital</button>
+      <button class="filter-btn">Clinic</button>
+      <button class="filter-btn">Free / Low Cost</button>
+    </div>
+
+    <!-- Leaflet map target -->
+    <div id="map"></div>
+
+    <!-- Hospital cards list -->
+    <div class="hospital-list" id="hospital-list">
+      <p style="color:var(--clr-text-muted);font-size:0.85rem;text-align:center;padding:1rem 0;">
+        📍 Requesting location…
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER — Action Grid + Chat Input Bar
+     ============================================================ -->
+<footer>
+  <div class="footer-inner">
+
+    <!-- 4 Action Buttons -->
+    <div class="action-grid">
+      <button class="action-btn primary" id="btn-check-symptoms">
+        <span class="btn-emoji">🔍</span>
+        Check Symptoms
+      </button>
+      <button class="action-btn success" id="btn-search-disease">
+        <span class="btn-emoji">📚</span>
+        Search Disease
+      </button>
+      <button class="action-btn" id="btn-find-hospitals" style="background:linear-gradient(135deg,#ea4335,#c62828);color:#fff;border-color:transparent;">
+        <span class="btn-emoji">🏥</span>
+        Find Hospitals
+      </button>
+      <button class="action-btn" id="btn-reset" style="background:var(--clr-surface);border-color:var(--clr-border);">
+        <span class="btn-emoji">🔄</span>
+        Reset
+      </button>
+    </div>
+
+    <!-- Chat Input Bar -->
+    <div class="input-bar">
+      <button class="btn-mic" id="btn-mic" title="Voice Input">🎤</button>
+      <input
+        type="text"
+        id="chat-input"
+        placeholder="Describe your symptoms or ask a health question…"
+        autocomplete="off"
+      />
+      <button class="btn-send" id="btn-send" title="Send">➤</button>
+    </div>
+
+  </div>
+</footer>
+
+<!-- Application Logic -->
+<script src="script.js"></script>
+</body>
+</html>
